@@ -1,4 +1,4 @@
-# 🏥 DR. SEHAAT - COMPLETE SETUP GUIDE
+# 🏥 DR. SEHAAT - COMPLETE SETUP GUIDEE
 
 ## What You're Getting 
 
