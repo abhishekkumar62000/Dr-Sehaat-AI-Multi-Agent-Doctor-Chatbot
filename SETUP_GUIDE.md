@@ -1,6 +1,6 @@
 # 🏥 DR. SEHAAT - COMPLETE SETUP GUIDE
 
-## What You're Getting
+## What You're Getting 
 
 A **PRODUCTION-READY** AI Healthcare Chatbot with:
 - ✅ Beautiful ChatGPT-like UI
