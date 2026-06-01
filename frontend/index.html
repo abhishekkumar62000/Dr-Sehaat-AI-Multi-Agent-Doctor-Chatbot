@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Sehaat - AI Healthcare Assistant</title>
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
+</head>
+<body>
+    <div class="chatbot-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">🏥</span>
+                    <span class="logo-text">Dr. Sehaat</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-actions">
+                <div class="doctor-selector">
+                    <div class="doctor-selector-header">
+                        <span class="doctor-selector-label">Select Specialist</span>
+                        <span id="doctorLiveBadge" class="doctor-live-badge">General Physician</span>
+                    </div>
+                    <div class="doctor-select-wrap">
+                        <select id="doctorSelect" class="doctor-select" aria-label="Select Specialist">
+                            <option value="general_physician">General Physician</option>
+                            <option value="ent_specialist">ENT Specialist</option>
+                            <option value="orthopedic">Orthopedic</option>
+                            <option value="gynecologist">Gynecologist</option>
+                            <option value="neurologist">Neurologist</option>
+                            <option value="cardiologist">Cardiologist</option>
+                            <option value="dermatologist">Dermatologist</option>
+                            <option value="pediatrician">Pediatrician</option>
+                            <option value="psychiatrist">Psychiatrist / Therapist</option>
+                            <option value="nutritionist">Dietitian / Nutritionist</option>
+                            <option value="pharmacist">Clinical Pharmacist</option>
+                        </select>
+                    </div>
+                    <small id="doctorHint" class="doctor-hint">Choose doctor based on your health concern.</small>
+                </div>
+
+                <button type="button" id="symptomWizardBtn" class="btn-secondary-action">
+                    <span class="icon">🩺</span> Symptom Check
+                </button>
+
+                <button type="button" id="profileBtn" class="btn-secondary-action">
+                    <span class="icon">👤</span> Health Profile
+                </button>
+
+                <div class="language-selector-wrapper">
+                    <label class="language-label">Language</label>
+                    <select id="languageSelect" class="language-select" aria-label="Select Language">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी (Hindi)</option>
+                        <option value="es">Español (Spanish)</option>
+                        <option value="fr">Français (French)</option>
+                        <option value="pt">Português (Portuguese)</option>
+                        <option value="de">Deutsch (German)</option>
+                    </select>
+                </div>
+
+                <button id="newChatBtn" class="btn-new-chat">
+                    <span class="icon">➕</span> New Chat
+                </button>
+            </div>
+            
+            <div class="chat-history">
+                <div class="history-header">Chat History</div>
+                <div id="chatHistoryList" class="history-list">
+                    <div class="empty-history">No chats yet</div>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <button id="clearAllBtn" class="btn-sidebar-action">🗑️ Clear All</button>
+                <button id="settingsBtn" class="btn-sidebar-action">⚙️ Settings</button>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-main">
+            <!-- Chat Header -->
+            <header class="chat-header">
+                <div class="header-info">
+                    <h1>Dr. Sehaat</h1>
+                    <p id="headerSubtitle" class="header-subtitle">Professional AI Healthcare Assistant</p>
+                </div>
+                <div class="header-controls">
+                    <button type="button" id="downloadPdfBtn" class="btn-header-action" title="Download Report as PDF">
+                        📄 PDF
+                    </button>
+                </div>
+                <div class="header-status">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Online</span>
+                </div>
+            </header>
+
+            <!-- Messages Container -->
+            <div id="messagesContainer" class="messages-container">
+                <div class="welcome-section">
+                    <div class="welcome-icon">🏥</div>
+                    <h2>Welcome to Dr. Sehaat</h2>
+                    <p class="welcome-subtitle">Your AI Healthcare Assistant</p>
+                    <div class="quick-actions">
+                        <div class="action-card" onclick="fillMessage('What are the symptoms of fever?')">
+                            <span class="action-emoji">🌡️</span>
+                            <span>Symptoms Info</span>
+                        </div>
+                        <div class="action-card" onclick="fillMessage('How can I improve my sleep?')">
+                            <span class="action-emoji">😴</span>
+                            <span>Wellness Tips</span>
+                        </div>
+                        <div class="action-card" onclick="fillMessage('What are the warning signs of heart disease?')">
+                            <span class="action-emoji">❤️</span>
+                            <span>Health Awareness</span>
+                        </div>
+                        <div class="action-card" onclick="fillMessage('How to manage stress and anxiety?')">
+                            <span class="action-emoji">🧘</span>
+                            <span>Mental Health</span>
+                        </div>
+                    </div>
+                    <div class="disclaimer">
+                        <strong>⚠️ Important Disclaimer:</strong>
+                        <p>This is preliminary medical guidance only. Always consult with licensed healthcare professionals for diagnosis and treatment.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="loadingIndicator" class="loading-indicator">
+                <div class="spinner"></div>
+                <span>Dr. Sehaat is thinking...</span>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-section">
+                <form id="chatForm" class="chat-form">
+                    <div class="input-wrapper">
+                        <button type="button" id="voiceBtn" class="btn-voice" aria-label="Voice Input (Click to start)">
+                            🎤
+                        </button>
+                        <button type="button" id="attachBtn" class="btn-attach" aria-label="Attach file">
+                            📎
+                        </button>
+                        <input type="file" id="attachmentInput" accept="image/*,.pdf,.jpg,.jpeg,.png,.webp" hidden>
+                        <textarea 
+                            id="messageInput" 
+                            class="message-input" 
+                            placeholder="Describe your health concerns... (Shift+Enter for new line, 🎤 for voice)"
+                            rows="1"
+                        ></textarea>
+                        <button type="button" id="ttsToggleBtn" class="btn-tts" aria-label="Toggle Text-to-Speech">
+                            🔊
+                        </button>
+                        <button type="submit" class="btn-send" id="sendBtn">
+                            <span class="send-icon">➤</span>
+                        </button>
+                    </div>
+                    <div class="input-hint">
+                        <small>💡 Be specific about your symptoms for better guidance | 🎤 Click mic for voice input | 🔊 Enable audio responses</small>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Settings -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="soundToggle" checked>
+                        Enable Notifications Sound
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="ttsEnabledToggle">
+                        Enable Text-to-Speech (AI Responses as Audio)
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="darkModeToggle" checked>
+                        Dark Mode
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="autoScrollToggle" checked>
+                        Auto-scroll to Latest Message
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary modal-close">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Symptom Checker -->
+    <div id="symptomWizardModal" class="modal">
+        <div class="modal-content wizard-content">
+            <div class="modal-header">
+                <h2>Symptom Check-In</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="wizard-help">Answer a few quick questions to help the assistant respond more accurately.</p>
+                <div class="wizard-grid">
+                    <div class="setting-item">
+                        <label for="symptomMain">Main symptom</label>
+                        <input id="symptomMain" class="wizard-input" type="text" placeholder="e.g. fever, cough, headache">
+                    </div>
+                    <div class="setting-item">
+                        <label for="symptomDuration">Duration</label>
+                        <input id="symptomDuration" class="wizard-input" type="text" placeholder="e.g. 3 days">
+                    </div>
+                    <div class="setting-item">
+                        <label for="symptomSeverity">Severity (1-10)</label>
+                        <input id="symptomSeverity" class="wizard-input" type="number" min="1" max="10" placeholder="5">
+                    </div>
+                    <div class="setting-item">
+                        <label for="symptomFever">Fever / temperature</label>
+                        <input id="symptomFever" class="wizard-input" type="text" placeholder="e.g. no fever or 101°F">
+                    </div>
+                    <div class="setting-item">
+                        <label for="symptomPainLocation">Pain location</label>
+                        <input id="symptomPainLocation" class="wizard-input" type="text" placeholder="e.g. throat, chest, abdomen">
+                    </div>
+                    <div class="setting-item">
+                        <label for="symptomTriggers">Triggers / relief</label>
+                        <input id="symptomTriggers" class="wizard-input" type="text" placeholder="e.g. worse at night, relief after rest">
+                    </div>
+                    <div class="setting-item wizard-span-2">
+                        <label for="symptomOther">Other symptoms</label>
+                        <textarea id="symptomOther" class="wizard-textarea" rows="3" placeholder="nausea, dizziness, vomiting, etc."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary modal-close">Cancel</button>
+                <button type="button" id="saveSymptomWizardBtn" class="btn-primary">Save Check-In</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Health Profile -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content wizard-content">
+            <div class="modal-header">
+                <h2>My Health Profile</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="wizard-help">Save basic health details to get more personalized guidance.</p>
+                <div class="wizard-grid">
+                    <div class="setting-item">
+                        <label for="profileName">Name</label>
+                        <input id="profileName" class="wizard-input" type="text" placeholder="Optional">
+                    </div>
+                    <div class="setting-item">
+                        <label for="profileAge">Age</label>
+                        <input id="profileAge" class="wizard-input" type="number" min="0" placeholder="e.g. 29">
+                    </div>
+                    <div class="setting-item">
+                        <label for="profileGender">Sex / Gender</label>
+                        <input id="profileGender" class="wizard-input" type="text" placeholder="e.g. female, male, other">
+                    </div>
+                    <div class="setting-item">
+                        <label for="profileLanguage">Preferred language</label>
+                        <input id="profileLanguage" class="wizard-input" type="text" placeholder="e.g. English, Hindi">
+                    </div>
+                    <div class="setting-item wizard-span-2">
+                        <label for="profileAllergies">Allergies</label>
+                        <textarea id="profileAllergies" class="wizard-textarea" rows="2" placeholder="e.g. penicillin, dust"></textarea>
+                    </div>
+                    <div class="setting-item wizard-span-2">
+                        <label for="profileConditions">Chronic conditions</label>
+                        <textarea id="profileConditions" class="wizard-textarea" rows="2" placeholder="e.g. diabetes, asthma"></textarea>
+                    </div>
+                    <div class="setting-item wizard-span-2">
+                        <label for="profileMeds">Current medications</label>
+                        <textarea id="profileMeds" class="wizard-textarea" rows="2" placeholder="e.g. metformin 500mg"></textarea>
+                    </div>
+                    <div class="setting-item">
+                        <label for="profilePregnancy">Pregnancy status</label>
+                        <input id="profilePregnancy" class="wizard-input" type="text" placeholder="N/A or details">
+                    </div>
+                    <div class="setting-item">
+                        <label for="profileHeight">Height</label>
+                        <input id="profileHeight" class="wizard-input" type="text" placeholder="e.g. 170 cm">
+                    </div>
+                    <div class="setting-item">
+                        <label for="profileWeight">Weight</label>
+                        <input id="profileWeight" class="wizard-input" type="text" placeholder="e.g. 65 kg">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary modal-close">Cancel</button>
+                <button type="button" id="saveProfileBtn" class="btn-primary">Save Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Emergency Alert -->
+    <div id="emergencyModal" class="modal emergency-modal">
+        <div class="modal-content emergency-content">
+            <div class="emergency-icon">🚨</div>
+            <h2>Emergency Detected</h2>
+            <p>If you're experiencing a medical emergency, please call emergency services immediately:</p>
+            <div class="emergency-numbers">
+                <div class="emergency-number">
+                    <strong>USA:</strong> 911
+                </div>
+                <div class="emergency-number">
+                    <strong>India:</strong> 102 (Ambulance) / 100 (Police)
+                </div>
+                <div class="emergency-number">
+                    <strong>UK:</strong> 999
+                </div>
+                <div class="emergency-number">
+                    <strong>Other:</strong> Local Emergency Number
+                </div>
+            </div>
+            <button class="btn-primary" onclick="closeEmergencyModal()">Acknowledge</button>
+        </div>
+    </div>
+
+    <script src="js/chat.js?v=3"></script>
+</body>
+</html>
