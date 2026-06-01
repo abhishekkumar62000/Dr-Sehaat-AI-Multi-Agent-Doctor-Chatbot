@@ -13,6 +13,4 @@ langsmith==0.1.147
 typing-extensions>=4.0
 openai>=1.0
 fpdf2==2.7.0
-reportlab==4.0.4 
-
- # Sehaat-Saathi-Website
+reportlab==4.0.4
