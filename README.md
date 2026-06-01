@@ -7,7 +7,7 @@ A beautiful, interactive AI-powered healthcare chatbot built with modern web tec
 - 🤖 **AI-Powered Healthcare Guidance** - Using Groq API with advanced LLM models
 - 💬 **ChatGPT-like UI** - Beautiful, responsive interface for seamless conversations
 - 🏥 **Professional Medical Focus** - Specialized healthcare chatbot for patient consultations
-- 🚨 **Emergency Detection** - Automatic detection of emergency situations 
+- 🚨 **Emergency Detection** - Automatic detection of emergency situations
 - 📱 **Fully Responsive** - Works perfectly on desktop, tablet, and mobile
 - 🌙 **Dark Mode** - Eye-friendly dark theme
 - 💾 **Chat History** - Keep track of conversations
