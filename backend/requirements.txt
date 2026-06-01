@@ -1,0 +1,16 @@
+Flask==3.0.0
+Flask-CORS==4.0.0
+python-dotenv==1.0.0
+langchain==0.1.20
+langchain-groq==0.1.5
+groq==0.4.2
+requests==2.31.0
+pydantic==2.6.0
+python-dateutil==2.8.2
+langchain-core==0.1.53
+langchain-text-splitters==0.0.2
+langsmith==0.1.147
+typing-extensions>=4.0
+openai>=1.0
+fpdf2==2.7.0
+reportlab==4.0.4
