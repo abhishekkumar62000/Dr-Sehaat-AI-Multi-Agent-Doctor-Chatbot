@@ -1,6 +1,6 @@
 # 🏥 Dr. Sehaat - Professional AI Healthcare Chatbot 
   
-A beautiful, interactive AI-powered healthcare chatbot built with modern web technologies. One-on-one chat interface similar to ChatGPT with professional medical guidance capabilities.             hujhjhghghghbnnhghhjhjhfgcgfghghgfgfghgh
+A beautiful, interactive AI-powered healthcare chatbot built with modern web technologies. One-on-one chat interface similar to ChatGPT with professional medical guidance capabilities.             hujhjhghghghbnnhghhjhjhfgcgfghghgfgfghghhgh
 
 ## ✨ Features
 
