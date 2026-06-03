@@ -2,7 +2,7 @@
   
 A beautiful, interactive AI-powered healthcare chatbot built with modern web technologies. One-on-one chat interface similar to ChatGPT with professional medical guidance capabilities. 
 
-## ✨ Features
+## ✨ Features 
 
 - 🤖 **AI-Powered Healthcare Guidance** - Using Groq API with advanced LLM models
 - 💬 **ChatGPT-like UI** - Beautiful, responsive interface for seamless conversations
